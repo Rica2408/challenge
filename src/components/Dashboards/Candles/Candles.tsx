@@ -1,11 +1,13 @@
 import { ceil, max, min } from "lodash";
 import { FC, useEffect, useState } from "react";
-import { DataProps } from "../../../screens/Dashboards/types";
-import { CandlesProps, CharCandlesDataType } from "./types";
 import ReactEcharts from "echarts-for-react";
+import { CandlesProps, CharCandlesDataType } from "./types";
+import { Box, Button, Typography, Select, MenuItem  } from '@material-ui/core'
+import { DataProps } from "../../../screens/Dashboards/types";
 
 const Candles: FC<CandlesProps> = ({data}) => {
   const [candlesData, setCandlesData] = useState<CharCandlesDataType[]>([])
+  const [interval, setInterval] = useState<number>(10)
 
   const transformToCandles = (data: DataProps[], time: number = 10): CharCandlesDataType[] => {
     const numberOfCandles = ceil(data.length / time)
@@ -36,10 +38,14 @@ const Candles: FC<CandlesProps> = ({data}) => {
     return arrayOfCandles
   }
 
+  const handlerInterval = (e: any): void => {
+    setInterval(e.target.value);
+  }
+
   useEffect(() => {
-    const tranformData = transformToCandles(data)
+    const tranformData = transformToCandles(data, interval)
     setCandlesData(tranformData)
-  }, [data])
+  }, [data, interval])
 
   const option = {
     tooltip: {
@@ -96,14 +102,14 @@ const Candles: FC<CandlesProps> = ({data}) => {
       {
         left: 40,
         right: 20,
-        top: 110,
+        top: 50,
         height: 120
       },
       {
         left: 20,
         right: 20,
         height: 40,
-        top: 260
+        top: 210
       }
     ],
     series: [
@@ -138,7 +144,22 @@ const Candles: FC<CandlesProps> = ({data}) => {
   };
 
   return (
-    <ReactEcharts option={option} />
+    <Box>
+      <Box style={{display:'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <Typography style={{marginRight: 10}}>Intervalos:</Typography>
+        <Select
+          id="interval"
+          value={interval}
+          label='interval'
+          onChange={handlerInterval}
+        >
+        <MenuItem value={10}>10</MenuItem>
+        <MenuItem value={20}>20</MenuItem>
+        <MenuItem value={30}>30</MenuItem>
+        </Select>
+      </Box>
+      <ReactEcharts option={option} />
+    </Box>
   )
 }
 

@@ -6,7 +6,7 @@ import Dashboards from './screens/Dashboards';
 const App: FC = () => {
   const { isAuthenticated } = useAuth0()
   return (
-    <div className="App">
+    <div>
       {isAuthenticated ? <Dashboards /> : <SignIn />} 
     </div>
   );

@@ -53,5 +53,9 @@ export const useStyles = makeStyles({
     width: '100%',
     background: '#26FC29',
     height: 5
+  },
+  loaderContainer: {
+    display: 'flex',
+    justifyContent: 'center'
   }
 })

@@ -1,7 +1,7 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import axios from 'axios'
 import { DataProps } from './types'
-import { Box, Button, Typography, Select, MenuItem  } from '@material-ui/core'
+import { Box, Button, Typography, Select, MenuItem, CircularProgress } from '@material-ui/core'
 import { useAuth0 } from '@auth0/auth0-react'
 import { uniqBy } from 'lodash'
 import Candles from '../../components/Dashboards/Candles'
@@ -14,6 +14,7 @@ const Dashboards: FC = () => {
   const [data, setData] = useState<DataProps[]>([])
   const [role, setRole] = useState<string[]>()
   const [chartType, setChartType] = useState('line')
+  const [loading, setLoading] = useState(false)
 
   const { logout, user, getAccessTokenSilently } = useAuth0()
 
@@ -48,12 +49,13 @@ const Dashboards: FC = () => {
       }
     })
     setRole(getRole.data)
-
+    setLoading(true)
+    
     //get data of action
     const res = await axios.get('https://run.mocky.io/v3/cc4c350b-1f11-42a0-a1aa-f8593eafeb1e')
-   
-    const data = transformDateData(res.data)
     
+    const data = transformDateData(res.data)
+    setLoading(false)
     setData(data)
   }
 
@@ -94,7 +96,7 @@ const Dashboards: FC = () => {
       </Box>
       <Box className={classes.chartContainer}>
         <Box className={classes.centerChart}>
-          <Typography style={{fontWeight: 'bold', fontSize: 30}}>Índice dePrecios y Cotizaciones</Typography>
+          <Typography style={{fontWeight: 'bold', fontSize: 30, textAlign: 'center', marginBottom: 30}}>Índice de Precios y Cotizaciones</Typography>
           {role?.some(x => x === 'admin') ? 
             <Box className={classes.selectContainer}>
               <Typography style={{marginRight: 10}}>Tipo de grafica:</Typography>
@@ -110,7 +112,11 @@ const Dashboards: FC = () => {
             </Box> : <></>
           }
           <Box>
-            {handlerShowChart(chartType, data)}        
+            {loading ? 
+              <Box className={classes.loaderContainer}>
+                <CircularProgress size={80}/> 
+              </Box>
+              :  handlerShowChart(chartType, data)}
           </Box>
         </Box>
       </Box>
