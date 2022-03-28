@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import './App.css'
 import SignIn from './screens/SingIn'
 import { useAuth0 } from '@auth0/auth0-react'
 import Dashboards from './screens/Dashboards';
