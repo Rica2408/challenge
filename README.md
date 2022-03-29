@@ -25,3 +25,13 @@ To run the project you need to add *.env* file
 ## npm run test
 
 to run the test
+
+## users
+
+role: user
+mail: user@testchallenge.com
+password: User1234
+
+role: admin
+mail: admin@testchallenge.com
+password: Admin1234
