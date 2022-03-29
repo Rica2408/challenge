@@ -48,7 +48,7 @@ const Dashboards: FC = () => {
           authorization: `Bearer ${token}`
         }
       })
-      setRole(getRole.data)
+      setRole(getRole.data.length ? getRole.data : ['user'])
     } catch (error) {
       console.log('error', error)
     }
