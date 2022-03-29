@@ -20,4 +20,8 @@ When you are in the web page if your role is *admin* you can see the data in two
 
 If you select *candles* you can choose the time of each one
 
+To run the project you need to add *.env* file
 
+## npm run test
+
+to run the test

@@ -2,7 +2,7 @@ import { ceil, max, min } from "lodash";
 import { FC, useEffect, useState } from "react";
 import ReactEcharts from "echarts-for-react";
 import { CandlesProps, CharCandlesDataType } from "./types";
-import { Box, Button, Typography, Select, MenuItem  } from '@material-ui/core'
+import { Box, Typography, Select, MenuItem  } from '@material-ui/core'
 import { DataProps } from "../../../screens/Dashboards/types";
 
 const Candles: FC<CandlesProps> = ({data}) => {

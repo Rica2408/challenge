@@ -17,7 +17,6 @@ const Dashboards: FC = () => {
   const [loading, setLoading] = useState(false)
 
   const { logout, user, getAccessTokenSilently } = useAuth0()
-
   //filter by second
   const filterByTime = (data: DataProps[]): DataProps[] => {
     const filterData = uniqBy(data, 'date')
@@ -43,20 +42,30 @@ const Dashboards: FC = () => {
   const getData = async() => {
     const token = await getAccessTokenSilently()
     //get information of api of authO
-    const getRole = await axios.get('http://localhost:4000/', {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    })
-    setRole(getRole.data)
+    try {
+      const getRole = await axios.get('http://localhost:4000/', {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      })
+      setRole(getRole.data)
+    } catch (error) {
+      console.log('error', error)
+    }
     setLoading(true)
     
     //get data of action
-    const res = await axios.get('https://run.mocky.io/v3/cc4c350b-1f11-42a0-a1aa-f8593eafeb1e')
+    try {
+      const res = await axios.get('https://run.mocky.io/v3/cc4c350b-1f11-42a0-a1aa-f8593eafeb1e')
+      const data = transformDateData(res.data)
+      setLoading(false)
+      setData(data)
     
-    const data = transformDateData(res.data)
-    setLoading(false)
-    setData(data)
+    } catch (error) {
+      console.log('error', error)
+      setLoading(false)
+      setData([])
+    }
   }
 
   const handlerTypeChart = (e: any): void => {
@@ -79,7 +88,7 @@ const Dashboards: FC = () => {
   },[])
 
   return(
-    <Box className={classes.container}>
+    <Box data-testid="dashboard" className={classes.container}>
       <Box className={classes.header}>
         <Box className={classes.rowContainer}>
           <Typography style={{color: '#26FC29', fontWeight: 'bold', fontSize: 40, marginLeft: 20}}>BIENVENIDO</Typography>
