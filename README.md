@@ -22,7 +22,7 @@ If you select *candles* you can choose the time of each one
 
 To run the project you need to add *.env* file
 
-# Notes
+## Notes
 
 I implement MFA, AuthO and RBCA but MFA is disable because ask a number to enter and the role admin is enrole with my phone. and the new user only have the role of *user* and they don't have the permission to see all the charts
 
